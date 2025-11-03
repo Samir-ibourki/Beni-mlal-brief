@@ -5,14 +5,14 @@ import icon from "../assets/icon.png";
 import { useRouter } from "expo-router";
 
 export default function HomeScreen() {
-  const router = useRouter();
+ const router = useRouter();
+
   // Animated values
-  const fadeAnim = useRef(new Animated.Value(0)).current; 
+  const fadeAnim = useRef(new Animated.Value(0)).current;
   const scaleAnim = useRef(new Animated.Value(0.8)).current;
-  const slideAnim = useRef(new Animated.Value(50)).current; 
 
   useEffect(() => {
-
+    // Start animations
     Animated.parallel([
       Animated.timing(fadeAnim, {
         toValue: 1,
@@ -27,19 +27,16 @@ export default function HomeScreen() {
       }),
     ]).start();
 
-    
-    Animated.timing(slideAnim, {
-      toValue: 0,
-      duration: 800,
-      delay: 800,
-      easing: Easing.out(Easing.ease),
-      useNativeDriver: true,
-    }).start();
-  }, [fadeAnim, scaleAnim, slideAnim]);
+    // Auto navigate to onboarding after 2 seconds
+    const timeout = setTimeout(() => {
+      router.replace("/onboarding"); // Replace with your onboarding screen path
+    }, 2000);
+
+    return () => clearTimeout(timeout);
+  }, []);
 
   return (
-    <View style={styles.container}>
-
+     <View style={styles.container}>
       <Animated.View
         style={[
           styles.center,
@@ -51,11 +48,14 @@ export default function HomeScreen() {
       >
         <Image source={icon} resizeMode="contain" style={{ width: 200, height: 200 }} />
         <Text style={styles.text}>Beni Mellal Guide</Text>
-        <Text style={styles.subtitel}>Discover the beauty of Beni Mellal! Explore waterfalls, lakes, historic sites...</Text>
+        <Text style={styles.subtitel}>
+          Discover the beauty of Beni Mellal! Explore waterfalls, lakes, historic sites...
+        </Text>
       </Animated.View>
+  
 
 
-      <SafeAreaView style={styles.safeBtn}>
+      {/* <SafeAreaView style={styles.safeBtn}>
         <Animated.View
           style={[
             {
@@ -72,7 +72,7 @@ export default function HomeScreen() {
             <Text style={styles.btnText}>Sign Up</Text>
           </TouchableOpacity>
         </Animated.View>
-      </SafeAreaView>
+      </SafeAreaView> */}
     </View>
   );
 }
@@ -98,25 +98,25 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "#555",
   },
-  safeBtn: {
-    position: "absolute",
-    bottom: 0,
-    width: "100%",
-    paddingHorizontal: 20,
-    paddingBottom: 20, 
-  },
-  btn: {
-    backgroundColor: "#007BFF",
-    paddingVertical: 15,
-    borderRadius: 8,
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 15,
-  },
-  btnText: {
-    color: "white",
-    fontSize: 18,
-    fontWeight: "bold",
-  },
+  // safeBtn: {
+  //   position: "absolute",
+  //   bottom: 0,
+  //   width: "100%",
+  //   paddingHorizontal: 20,
+  //   paddingBottom: 20, 
+  // },
+  // btn: {
+  //   backgroundColor: "#378b84ff",
+  //   paddingVertical: 15,
+  //   borderRadius: 8,
+  //   width: "100%",
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  //   marginBottom: 15,
+  // },
+  // btnText: {
+  //   color: "white",
+  //   fontSize: 18,
+  //   fontWeight: "bold",
+  // },
 });
