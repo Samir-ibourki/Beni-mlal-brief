@@ -1,15 +1,19 @@
-import React, { useState, useEffect, useRef } from "react";
+import { router } from "expo-router";
+import { useEffect, useRef, useState } from "react";
 import {
   Animated,
-  ImageBackground,
+  Easing,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
-  Easing,
 } from "react-native";
+import Reanimated, {
+  FadeIn,
+  FadeOut,
+  SlideInDown,
+} from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { router } from "expo-router";
 
 const slides = [
   {
@@ -74,23 +78,26 @@ export default function Onboarding() {
   const currentSlide = slides[currentIndex];
 
   return (
-    <ImageBackground
-      source={currentSlide.image}
-      style={styles.background}
-      resizeMode="cover"
-    >
-  
+    <View style={styles.background}>
+      <Reanimated.Image
+        key={`index-${currentIndex}`}
+        entering={FadeIn}
+        exiting={FadeOut}
+        source={currentSlide.image}
+        style={{
+          ...StyleSheet.absoluteFill,
+          flex: 1,
+          width: "100%",
+          height: "100%",
+        }}
+      />
       <View style={styles.overlay} />
 
       <SafeAreaView style={styles.container}>
-        <Animated.View
-          style={[
-            styles.textContainer,
-            {
-              opacity: fadeAnim,
-              transform: [{ translateY: translateAnim }],
-            },
-          ]}
+        <Reanimated.View
+          key={`index-${currentIndex}`}
+          entering={SlideInDown}
+          style={[styles.textContainer]}
         >
           <Text style={styles.title}>{currentSlide.title}</Text>
           <Text style={styles.description}>{currentSlide.description}</Text>
@@ -108,9 +115,9 @@ export default function Onboarding() {
               </Text>
             </TouchableOpacity>
           </View>
-        </Animated.View>
+        </Reanimated.View>
       </SafeAreaView>
-    </ImageBackground>
+    </View>
   );
 }
 
@@ -122,14 +129,14 @@ const styles = StyleSheet.create({
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(0,0,0,0.35)", 
+    backgroundColor: "rgba(0,0,0,0.35)",
   },
   container: {
-   position: 'absolute',
-    top: 80,            
+    position: "absolute",
+    top: 80,
     left: 0,
     right: 0,
-    alignItems: 'center', 
+    alignItems: "center",
     paddingHorizontal: 20,
   },
   textContainer: {
