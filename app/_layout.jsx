@@ -5,7 +5,8 @@ export default function Layout() {
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="/" />
       <Stack.Screen name="/onboarding" />
-      {/* <Stack.Screen name="/signUp" /> */}
+      <Stack.Screen name="/homescreen" />
+
     </Stack>
   );
 }

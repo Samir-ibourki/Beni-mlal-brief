@@ -1,18 +1,16 @@
 import React, { useRef, useEffect } from "react";
-import { View, Text, Image, TouchableOpacity, StyleSheet, Animated, Easing } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { View, Text, Image, StyleSheet, Animated, Easing } from "react-native";
 import icon from "../assets/icon.png";
 import { useRouter } from "expo-router";
 
-export default function HomeScreen() {
+export default function Index() {
  const router = useRouter();
 
-  // Animated values
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const scaleAnim = useRef(new Animated.Value(0.8)).current;
 
   useEffect(() => {
-    // Start animations
+    
     Animated.parallel([
       Animated.timing(fadeAnim, {
         toValue: 1,
@@ -27,13 +25,13 @@ export default function HomeScreen() {
       }),
     ]).start();
 
-    // Auto navigate to onboarding after 2 seconds
+    
     const timeout = setTimeout(() => {
-      router.replace("/onboarding"); // Replace with your onboarding screen path
+      router.replace("/onboarding"); 
     }, 2000);
 
     return () => clearTimeout(timeout);
-  }, []);
+  }, [fadeAnim, router, scaleAnim]);
 
   return (
      <View style={styles.container}>
