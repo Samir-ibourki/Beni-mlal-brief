@@ -65,7 +65,7 @@ export default function Onboarding() {
     if (currentIndex < slides.length - 1) {
       setCurrentIndex(currentIndex + 1);
     } else {
-      router.replace("/listScreen");
+      router.push("/details");
     }
   };
 
