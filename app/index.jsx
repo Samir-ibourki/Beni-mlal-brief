@@ -1,16 +1,15 @@
-import React, { useRef, useEffect } from "react";
-import { View, Text, Image, StyleSheet, Animated, Easing } from "react-native";
-import icon from "../assets/icon.png";
 import { useRouter } from "expo-router";
+import { useEffect, useRef } from "react";
+import { Animated, Easing, Image, StyleSheet, Text, View } from "react-native";
+import icon from "../assets/icon.png";
 
 export default function Index() {
- const router = useRouter();
+  const router = useRouter();
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const scaleAnim = useRef(new Animated.Value(0.8)).current;
 
   useEffect(() => {
-    
     Animated.parallel([
       Animated.timing(fadeAnim, {
         toValue: 1,
@@ -25,16 +24,15 @@ export default function Index() {
       }),
     ]).start();
 
-    
     const timeout = setTimeout(() => {
-      router.replace("/onboarding"); 
+      router.replace("/onboarding");
     }, 2000);
 
     return () => clearTimeout(timeout);
   }, [fadeAnim, router, scaleAnim]);
 
   return (
-     <View style={styles.container}>
+    <View style={styles.container}>
       <Animated.View
         style={[
           styles.center,
@@ -44,14 +42,17 @@ export default function Index() {
           },
         ]}
       >
-        <Image source={icon} resizeMode="contain" style={{ width: 200, height: 200 }} />
+        <Image
+          source={icon}
+          resizeMode="contain"
+          style={{ width: 200, height: 200 }}
+        />
         <Text style={styles.text}>Beni Mellal Guide</Text>
         <Text style={styles.subtitel}>
-          Discover the beauty of Beni Mellal! Explore waterfalls, lakes, historic sites...
+          Discover the beauty of Beni Mellal! Explore waterfalls, lakes,
+          historic sites...
         </Text>
       </Animated.View>
-  
-
 
       {/* <SafeAreaView style={styles.safeBtn}>
         <Animated.View
@@ -85,7 +86,7 @@ const styles = StyleSheet.create({
   center: {
     alignItems: "center",
     gap: 10,
-    marginBottom:70,
+    marginBottom: 70,
   },
   text: {
     fontSize: 35,
@@ -101,7 +102,7 @@ const styles = StyleSheet.create({
   //   bottom: 0,
   //   width: "100%",
   //   paddingHorizontal: 20,
-  //   paddingBottom: 20, 
+  //   paddingBottom: 20,
   // },
   // btn: {
   //   backgroundColor: "#378b84ff",
