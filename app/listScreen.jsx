@@ -1,5 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
-import { Text, View,Image, TouchableOpacity, RefreshControl, ActivityIndicator,StyleSheet,FlatList } from "react-native";
+import { Text, View,Image, TouchableOpacity, ActivityIndicator,FlatList } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import axios from 'axios';
 import { useEffect, useState } from "react";
@@ -57,7 +57,7 @@ if (error) {
       keyExtractor={(item) => item.id}
       renderItem={({ item }) => (
         <View style={{ margin: 10, backgroundColor: '#fff', borderRadius: 10, padding: 10 }}>
-          <Image source={{ uri: item.images[0] }} style={{ height: 250, borderRadius: 10,marginBottom:8 }} />
+          <Image source={{ uri: item.images[1] }} style={{ height: 250, borderRadius: 10,marginBottom:8 }} />
           <Text style={{ fontWeight: 'bold', marginTop: 5,marginBottom:10,fontSize:20 }}>{item.name}</Text>
           <TouchableOpacity onPress={() => router.push(`/details/${item.id}`)}>
             <Text style={{lineHeight:20}}>{item.description}</Text>
