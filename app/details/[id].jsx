@@ -57,15 +57,18 @@ export default function ListDetails() {
       {/* Contenu défilant */}
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Image principale */}
-        <Image
-          source={{ uri: place.images[0] }}
-          style={{
-            width: "100%",
-            height: 300,
-            borderBottomLeftRadius: 20,
-            borderBottomRightRadius: 20,
-          }}
-        />
+        {place.images?.[0] && (
+          <Image
+            source={{ uri: place.images[0] }}
+            style={{
+              width: "100%",
+              height: 300,
+              borderBottomLeftRadius: 20,
+              borderBottomRightRadius: 20,
+            }}
+            resizeMode="cover"
+          />
+        )}
 
         <View style={{ padding: 15 }}>
           {/* Description */}
@@ -84,7 +87,7 @@ export default function ListDetails() {
           </Text>
 
           {/* Galerie d'images supplémentaires */}
-          {place.images.length > 1 && (
+          {place.images?.length > 1 && (
             <>
               <Text
                 style={{
@@ -92,6 +95,7 @@ export default function ListDetails() {
                   fontWeight: "bold",
                   marginTop: 20,
                   marginBottom: 10,
+                  color: "#222",
                 }}
               >
                 Galerie
@@ -107,6 +111,7 @@ export default function ListDetails() {
                       marginRight: 10,
                       borderRadius: 10,
                     }}
+                    resizeMode="cover"
                   />
                 ))}
               </ScrollView>
