@@ -1,7 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
-import axios from "axios";
 import { useRouter } from "expo-router";
-import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -12,26 +10,13 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useEffect } from "react";
+import { usePlacesStore } from "../../store/usePlacesStore";
 
 export default function ListScreen() {
   const router = useRouter();
-  let api = "https://69086a582d902d0651b03223.mockapi.io/api/v1/places";
+  const { places, loading, error, fetchPlaces } = usePlacesStore();
 
-  const [places, setPlaces] = useState([]);
-  const [loading, setloading] = useState(true);
-  const [error, setError] = useState(false);
-
-  const fetchPlaces = async () => {
-    try {
-      setError(false);
-      const response = await axios.get(api);
-      setPlaces(response.data);
-    } catch (error) {
-      setError(true);
-    } finally {
-      setloading(false);
-    }
-  };
   useEffect(() => {
     fetchPlaces();
   }, []);
@@ -45,6 +30,7 @@ export default function ListScreen() {
       />
     );
   }
+
   if (error) {
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -59,6 +45,7 @@ export default function ListScreen() {
       </View>
     );
   }
+
   return (
     <SafeAreaView>
       <View
@@ -73,93 +60,45 @@ export default function ListScreen() {
         <Ionicons name="location-sharp" size={35} color={"#378b84"} />
         <Text style={{ fontSize: 25, fontWeight: 700 }}>Beni Mellal Guide</Text>
       </View>
-      <View>
-        <Image
-          resizeMode="contain"
-          style={{ width: "100%", height: 300 }}
-          source={require("../../assets/banner.png")}
-        />
-      </View>
-      <View>
-        <FlatList
-          data={places}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <Pressable
-              onPress={() => router.push(`details/${item.id}`)}
+
+      <Image
+        resizeMode="contain"
+        style={{ width: "100%", height: 300 }}
+        source={require("../../assets/banner.png")}
+      />
+
+      <FlatList
+        data={places}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <Pressable
+            onPress={() => router.push(`details/${item.id}`)}
+            style={{
+              margin: 10,
+              backgroundColor: "#fff",
+              borderRadius: 10,
+              padding: 10,
+            }}
+          >
+            <Image
+              source={{ uri: item.images[0] }}
+              style={{ height: 250, borderRadius: 10, marginBottom: 8 }}
+            />
+            <Text
               style={{
-                margin: 10,
-                backgroundColor: "#fff",
-                borderRadius: 10,
-                padding: 10,
+                fontWeight: "bold",
+                marginTop: 5,
+                marginBottom: 10,
+                fontSize: 20,
               }}
             >
-              <Image
-                source={{ uri: item.images[0] }}
-                style={{ height: 250, borderRadius: 10, marginBottom: 8 }}
-              />
-              <Text
-                style={{
-                  fontWeight: "bold",
-                  marginTop: 5,
-                  marginBottom: 10,
-                  fontSize: 20,
-                }}
-              >
-                {item.name}
-              </Text>
+              {item.name}
+            </Text>
 
-              <Text style={{ lineHeight: 20 }}>{item.description}</Text>
-            </Pressable>
-          )}
-        />
-      </View>
+            <Text style={{ lineHeight: 20 }}>{item.description}</Text>
+          </Pressable>
+        )}
+      />
     </SafeAreaView>
   );
 }
-
-// const styles = StyleSheet.create({
-//   center: {
-//     flex: 1,
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//   },
-//   card: {
-//     backgroundColor: '#fff',
-//     borderRadius: 15,
-//     marginBottom: 20,
-//     shadowColor: '#000',
-//     shadowOpacity: 0.1,
-//     shadowRadius: 10,
-//     elevation: 3,
-//     overflow: 'hidden',
-//   },
-//   image: {
-//     width: '100%',
-//     height: 180,
-//   },
-//   title: {
-//     fontSize: 20,
-//     fontWeight: 'bold',
-//     marginTop: 10,
-//     paddingHorizontal: 10,
-//     color: '#333',
-//   },
-//   description: {
-//     fontSize: 14,
-//     color: '#666',
-//     padding: 10,
-//     paddingTop: 5,
-//   },
-//   retryBtn: {
-//     backgroundColor: '#378b84ff',
-//     paddingHorizontal: 30,
-//     paddingVertical: 12,
-//     borderRadius: 8,
-//   },
-//   retryText: {
-//     color: '#fff',
-//     fontSize: 16,
-//     fontWeight: '600',
-//   },
-// });
