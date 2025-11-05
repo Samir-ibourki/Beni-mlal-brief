@@ -1,5 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import { useEffect } from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -10,7 +11,6 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useEffect } from "react";
 import { usePlacesStore } from "../../store/usePlacesStore";
 
 export default function ListScreen() {
